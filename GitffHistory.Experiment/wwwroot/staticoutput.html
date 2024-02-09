@@ -1,0 +1,1863 @@
+﻿
+
+<html>
+<head>
+    <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+
+    <table>
+        <tr>
+            <td class="codefile">
+                <table>
+                    <tr>
+                        <td><div class="filename">4_5858bd7f3067c1908ed3a2b836031ea195705783.txt</div></td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            namespace Miniblog.Core.Markdown;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            using Microsoft.VisualBasic;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            public interface IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            Task&lt;List&lt;MarkdownPost&gt;&gt; ParseMarkdownToPost();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            public class ParseMarkdownToPostService : IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            private readonly IGithubContentsService githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            private readonly IDownloadMarkdown markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            public ParseMarkdownToPostService(IGithubContentsService githubContentsService, IDownloadMarkdown markdownDownloadService)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.markdownDownloadService = markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.githubContentsService = githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            public async Task&lt;List&lt;MarkdownPost&gt;&gt; ParseMarkdownToPost()
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await githubContentsService.LoadContents();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var contents = await markdownDownloadService.DownloadMarkdownAsync(
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            githubContentsService.GithubContents.Select(d =&gt; new Uri(d.DownloadUrl)));
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            return await ParseMarkdownToPost(contents);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    public async Task&lt;List&lt;MarkdownPost&gt;&gt; ParseMarkdownToPost(List&lt;string&gt; markdownFiles)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var intermediatePosts = new List&lt;MarkdownPost&gt;();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            foreach (var item in markdownFiles)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;            var parser = new MarkdownBlogpostParser(item);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseCommentsAsPropertiesAsync();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseContent();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            intermediatePosts.Add(parser.MarkdownPost);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            return intermediatePosts;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                </table>
+
+            </td>
+            <td class="codefile">
+                <table>
+                    <tr>
+                        <td><div class="filename">3_144811de245d02dd105eae5c89d95768105538d8.txt</div></td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            namespace Miniblog.Core.Markdown;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            using Microsoft.VisualBasic;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            public interface IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            Task&lt;List&lt;MarkdownPost&gt;&gt; ParseMarkdownToPost();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            public class ParseMarkdownToPostService : IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            private readonly IGithubContentsService githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            private readonly IDownloadMarkdown markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            public ParseMarkdownToPostService(IGithubContentsService githubContentsService, IDownloadMarkdown markdownDownloadService)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.markdownDownloadService = markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.githubContentsService = githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            public async Task&lt;List&lt;MarkdownPost&gt;&gt; ParseMarkdownToPost()
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await githubContentsService.LoadContents();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var contents = await markdownDownloadService.DownloadMarkdownAsync(
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            githubContentsService.GithubContents.Select(d =&gt; new Uri(d.DownloadUrl)));
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            return await ParseMarkdownToPost(contents);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    public async Task&lt;List&lt;MarkdownPost&gt;&gt; ParseMarkdownToPost(List&lt;MardownFile&gt; markdownFiles)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var intermediatePosts = new List&lt;MarkdownPost&gt;();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            foreach (var item in markdownFiles)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;            var parser = new MarkdownBlogpostParser(item.Contents);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseCommentsAsPropertiesAsync();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseContent();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            intermediatePosts.Add(parser.MarkdownPost);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            return intermediatePosts;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                </table>
+
+            </td>
+            <td class="codefile">
+                <table>
+                    <tr>
+                        <td><div class="filename">3_144811de245d02dd105eae5c89d95768105538d8.txt</div></td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            namespace Miniblog.Core.Markdown;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            using Microsoft.VisualBasic;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            public interface IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    Task&lt;List&lt;MarkdownPost&gt;&gt; ParseMarkdownToPost();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            public class ParseMarkdownToPostService : IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    private readonly IGithubContentsService githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            private readonly IDownloadMarkdown markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    public ParseMarkdownToPostService(IGithubContentsService githubContentsService, IDownloadMarkdown markdownDownloadService)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.markdownDownloadService = markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.githubContentsService = githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    public async Task&lt;List&lt;MarkdownPost&gt;&gt; ParseMarkdownToPost()
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await githubContentsService.LoadContents();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var contents = await markdownDownloadService.DownloadMarkdownAsync(
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            githubContentsService.GithubContents.Select(d =&gt; new Uri(d.DownloadUrl)));
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        return await ParseMarkdownToPost(contents);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            public async Task&lt;List&lt;MarkdownPost&gt;&gt; ParseMarkdownToPost(List&lt;MardownFile&gt; markdownFiles)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var intermediatePosts = new List&lt;MarkdownPost&gt;();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        foreach (var item in markdownFiles)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;            var parser = new MarkdownBlogpostParser(item.Contents);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseCommentsAsPropertiesAsync();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseContent();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            intermediatePosts.Add(parser.MarkdownPost);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            return intermediatePosts;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                </table>
+
+            </td>
+            <td class="codefile">
+                <table>
+                    <tr>
+                        <td><div class="filename">2_db34c323c336d648e40d5d8c5005fee656bd923c.txt</div></td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            namespace Miniblog.Core.Markdown;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            public interface IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    Task&lt;List&lt;MarkdownPost&gt;&gt; GetMarkdownPosts();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            public class MarkdownPostService : IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    private readonly IGithubContentsApi githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            private readonly IDownloadMarkdown markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    public MarkdownPostService(IGithubContentsApi githubContentsService, IDownloadMarkdown markdownDownloadService)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.markdownDownloadService = markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.githubContentsService = githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    public async Task&lt;List&lt;MarkdownPost&gt;&gt; GetMarkdownPosts()
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await githubContentsService.LoadContents();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var contents = await markdownDownloadService.DownloadMarkdownAsync(
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            githubContentsService.GithubContents.Select(d =&gt; new Uri(d.DownloadUrl)));
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var intermediatePosts = new List&lt;MarkdownPost&gt;();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        foreach (var item in contents)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;            var parser = new MarkdownBlogpostParser(item);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseCommentsAsPropertiesAsync();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseContent();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            intermediatePosts.Add(parser.MarkdownPost);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            return intermediatePosts;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                </table>
+
+            </td>
+            <td class="codefile">
+                <table>
+                    <tr>
+                        <td><div class="filename">2_db34c323c336d648e40d5d8c5005fee656bd923c.txt</div></td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            namespace Miniblog.Core.Markdown;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            public interface IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    Task&lt;List&lt;MarkdownPost&gt;&gt; GetMarkdownPosts();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            public class MarkdownPostService : IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    private readonly IGithubContentsApi githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            private readonly IDownloadMarkdown markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    public MarkdownPostService(IGithubContentsApi githubContentsService, IDownloadMarkdown markdownDownloadService)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.markdownDownloadService = markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.githubContentsService = githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="deletion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    public async Task&lt;List&lt;MarkdownPost&gt;&gt; GetMarkdownPosts()
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await githubContentsService.LoadContents();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var contents = await markdownDownloadService.DownloadMarkdownAsync(
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            githubContentsService.GithubContents.Select(d =&gt; new Uri(d.DownloadUrl)));
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var intermediatePosts = new List&lt;MarkdownPost&gt;();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            foreach (var item in contents)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var parser = new MarkdownBlogpostParser(item);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseCommentsAsPropertiesAsync();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseContent();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            intermediatePosts.Add(parser.MarkdownPost);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            return intermediatePosts;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                </table>
+
+            </td>
+            <td class="codefile">
+                <table>
+                    <tr>
+                        <td><div class="filename">1_09176abef779f31035ed8517c099ec1c9e62cf81.txt</div></td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            namespace Miniblog.Core.Markdown;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            public interface IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    Task&lt;List&lt;MarkdownPost&gt;&gt; ParseMarkdownToPost();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            public class ParseMarkdownToPostService : IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    private readonly IGithubContentsService githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            private readonly IDownloadMarkdown markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    public ParseMarkdownToPostService(IGithubContentsService githubContentsService, IDownloadMarkdown markdownDownloadService)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.markdownDownloadService = markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.githubContentsService = githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="insertion">
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;    public async Task&lt;List&lt;MarkdownPost&gt;&gt; ParseMarkdownToPost()
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await githubContentsService.LoadContents();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var contents = await markdownDownloadService.DownloadMarkdownAsync(
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            githubContentsService.GithubContents.Select(d =&gt; new Uri(d.DownloadUrl)));
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var intermediatePosts = new List&lt;MarkdownPost&gt;();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            foreach (var item in contents)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var parser = new MarkdownBlogpostParser(item);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseCommentsAsPropertiesAsync();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseContent();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            intermediatePosts.Add(parser.MarkdownPost);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            return intermediatePosts;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                </table>
+
+            </td>
+            <td class="codefile">
+                <table>
+                    <tr>
+                        <td><div class="filename">1_09176abef779f31035ed8517c099ec1c9e62cf81.txt</div></td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            namespace Miniblog.Core.Markdown;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            public interface IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            Task&lt;List&lt;MarkdownPost&gt;&gt; ParseMarkdownToPost();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            public class ParseMarkdownToPostService : IParseMarkdownToPost
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            private readonly IGithubContentsService githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            private readonly IDownloadMarkdown markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            public ParseMarkdownToPostService(IGithubContentsService githubContentsService, IDownloadMarkdown markdownDownloadService)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.markdownDownloadService = markdownDownloadService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            this.githubContentsService = githubContentsService;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            public async Task&lt;List&lt;MarkdownPost&gt;&gt; ParseMarkdownToPost()
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await githubContentsService.LoadContents();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var contents = await markdownDownloadService.DownloadMarkdownAsync(
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            githubContentsService.GithubContents.Select(d =&gt; new Uri(d.DownloadUrl)));
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var intermediatePosts = new List&lt;MarkdownPost&gt;();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            foreach (var item in contents)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            var parser = new MarkdownBlogpostParser(item);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseCommentsAsPropertiesAsync();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            await parser.ParseContent();
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            intermediatePosts.Add(parser.MarkdownPost);
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            return intermediatePosts;
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="justline">
+
+                            }
+                        </td>
+
+                    </tr>
+                </table>
+
+            </td>
+            <td class="codefile">
+                <table>
+                    <tr>
+                        <td><div class="filename"></div></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

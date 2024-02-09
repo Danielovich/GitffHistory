@@ -16,3 +16,4 @@ A video shows the output and you can find the HTML output in the repo here as we
 
 https://github.com/Danielovich/GitffHistory/assets/273661/9e643f07-1d52-411f-af99-f89fce4afaaa
 
+You can simply run the file wwwroot/staticoutput.html in your browser to get a grasp of what I have tried to do.
