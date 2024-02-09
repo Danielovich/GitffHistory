@@ -1,0 +1,110 @@
+﻿@using System.Web
+@using GitffHistory.Experiment.ViewModels
+@model IndexVewModel
+
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+    <table>
+        <tr>
+            @foreach (var item in Model.Changes)
+            {
+                <td class="codefile">
+                    <table>
+                        <tr>
+                            <td><div class="filename">@item.HistoryFilename</div></td>
+                        </tr>
+                        @for (int i = 1; i < item.History.Count; i++)
+                        {
+                            var whitespace = Model.LeadingWhitespaceToNbsp(item.History[i].Content);
+
+                            if (@item.History[i].Content == string.Empty)
+                            {
+                                <tr>
+                                    <td>&nbsp;</td>
+                                </tr>
+
+                                continue;
+                            }
+
+                            <tr>
+                                @if (item.History[i].HasChange)
+                                {
+                                    <td class="deletion">
+
+                                        @if (item.History[i].Deletion)
+                                        {
+                                            @Html.Raw(whitespace)
+                                            @item.History[i].Content
+                                        }
+
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="justline">
+                                        @Html.Raw(whitespace)
+                                        @item.History[i].Content
+                                    </td>
+                                }
+
+                            </tr>
+                        }
+                    </table>
+
+                </td>
+                <td class="codefile">
+                    <table>
+                        <tr>
+                            <td><div class="filename">@item.CurrentFilename</div></td>
+                        </tr>
+                        @for (int i = 1; i < item.Current.Count; i++)
+                        {
+                            var whitespace = Model.LeadingWhitespaceToNbsp(item.Current[i].Content);
+
+                            if (@item.Current[i].Content == string.Empty)
+                            {
+                                <tr>
+                                    <td>&nbsp;</td>
+                                </tr>
+
+                                continue;
+                            }
+
+                            <tr>
+                                @if (item.Current[i].HasChange)
+                                {
+                                    <td class="insertion">
+
+                                        @if (item.Current[i].Insertion)
+                                        {
+                                            @Html.Raw(whitespace)
+                                            @item.Current[i].Content
+                                        }
+
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="justline">
+                                        @Html.Raw(whitespace)
+                                        @item.Current[i].Content
+                                    </td>
+                                }
+
+                            </tr>
+                        }
+                    </table>
+
+                </td>
+            }
+        </tr>
+    </table>
+
+
+</body>
+</html>
