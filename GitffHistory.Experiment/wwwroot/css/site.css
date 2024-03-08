@@ -1,0 +1,36 @@
+.codefile {
+    font-family: Consolas;
+    padding: 30px;
+    padding-top: 0;
+    vertical-align: top;
+}
+
+table {
+    border-collapse: collapse;
+    width: auto;
+    table-layout: auto;
+}
+
+.codefile {
+    width: 100%;
+}
+    .codefile td, .codefile th {
+        white-space: nowrap;
+    }
+
+.deletion {
+    background-color: #e24545;
+}
+
+.insertion {
+    background-color: #2aff00;
+}
+
+.justline{
+
+}
+
+.filename{
+    height:100px;
+    background-color:#9ed186
+}
