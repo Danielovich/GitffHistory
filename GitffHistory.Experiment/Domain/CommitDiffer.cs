@@ -17,7 +17,10 @@ namespace GitffHistory.Experiment.Domain
 
             foreach (var d in diffs)
             {
-                d.Diffs = diffAlgorithm.DiffText(d.Parent.RawFileContents, d.Current.RawFileContents);
+                if(!string.IsNullOrEmpty(d.Parent.RawFileContents) && !string.IsNullOrEmpty(d.Current.RawFileContents))
+                {
+                    d.Diffs = diffAlgorithm.DiffText(d.Parent.RawFileContents, d.Current.RawFileContents);
+                }
             }
             
             return diffs;

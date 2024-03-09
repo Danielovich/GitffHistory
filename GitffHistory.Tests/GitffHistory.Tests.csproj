@@ -28,6 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Offline\Offline_HTML_Files_Will_Land_Here.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="StubData\Commits\1_09176abef779f31035ed8517c099ec1c9e62cf81.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
