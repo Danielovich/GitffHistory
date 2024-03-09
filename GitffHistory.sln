@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitffHistory.Experiment", "GitffHistory.Experiment\GitffHistory.Experiment.csproj", "{6DDB46B1-BEA8-4F62-BB9F-F379940C54FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitffHistory.Tests", "GitffHistory.Tests\GitffHistory.Tests.csproj", "{3961527B-5B34-45AE-90D7-C7716E8D4093}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6DDB46B1-BEA8-4F62-BB9F-F379940C54FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DDB46B1-BEA8-4F62-BB9F-F379940C54FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DDB46B1-BEA8-4F62-BB9F-F379940C54FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3961527B-5B34-45AE-90D7-C7716E8D4093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3961527B-5B34-45AE-90D7-C7716E8D4093}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3961527B-5B34-45AE-90D7-C7716E8D4093}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3961527B-5B34-45AE-90D7-C7716E8D4093}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

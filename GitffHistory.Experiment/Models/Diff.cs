@@ -2,10 +2,13 @@
 
 namespace GitffHistory.Experiment.Models
 {
+    /// <summary>
+    /// This type is a representation of two commits and the changes between them.
+    /// </summary>
     public class Diff
     {
         public Commit Current { get; set; } = new Commit();
-        public Commit History { get; set; } = new Commit();
-        public EugeneMyers.Item[] Diffs { get; internal set; } = new EugeneMyers.Item[] { };
+        public Commit Parent { get; set; } = new Commit();
+        public EugeneMyersDiffAlgorithm.Item[] Diffs { get; internal set; } = new EugeneMyersDiffAlgorithm.Item[] { };
     }
 }

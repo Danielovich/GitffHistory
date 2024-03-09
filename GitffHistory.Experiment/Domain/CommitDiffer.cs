@@ -5,35 +5,36 @@ namespace GitffHistory.Experiment.Domain
 {
     public interface IDiffFiles
     {
-        List<Diff> Diff();
+        List<Diff> Diff(List<Diff> diffs);
+        List<Diff> BuildParentCurrentHierachi(List<Commit> commits);
     }
 
     public class CommitDiffer : IDiffFiles
     {
-        private readonly IReadFiles<Commit> commitReader;
-
-        public CommitDiffer(IReadFiles<Commit> commitReader)
+        public List<Diff> Diff(List<Diff> diffs)
         {
-            this.commitReader = commitReader;
+            EugeneMyersDiffAlgorithm diffAlgorithm = new();
+
+            foreach (var d in diffs)
+            {
+                d.Diffs = diffAlgorithm.DiffText(d.Parent.RawFileContents, d.Current.RawFileContents);
+            }
+            
+            return diffs;
         }
 
-        public List<Diff> Diff()
+        public List<Diff> BuildParentCurrentHierachi(List<Commit> commits)
         {
-            var files = commitReader.ReadFilesFromDirectory();
-            var result = new List<Diff>();
-            EugeneMyers eugeneMyers = new EugeneMyers(); // yes yes, we could interface this
+            List<Diff> result = new();
 
-            for (var i = 0; i < files.Count; i++)
+            for (var i = 0; i < commits.Count(); i++)
             {
-                var diff = new Diff();
-                var history = files[i];
-                diff.History = history;
+                Diff diff = new();
 
-                if (i + 1 < files.Count)
+                diff.Parent = commits[i];
+                if (i + 1 < commits.Count())
                 {
-                    var current = files[i + 1];
-                    diff.Diffs = eugeneMyers.DiffText(history.RawFileContents, current.RawFileContents);
-                    diff.Current = current;
+                    diff.Current = commits[i + 1];
                 }
 
                 result.Add(diff);

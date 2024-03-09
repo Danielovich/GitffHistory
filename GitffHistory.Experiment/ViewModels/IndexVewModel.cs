@@ -23,7 +23,7 @@ namespace GitffHistory.Experiment.ViewModels
 
                 var result = new List<LineDetail>() { new LineDetail() };
 
-                var linesToExcercise = commit.History.RawFileContents.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+                var linesToExcercise = commit.Parent.RawFileContents.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
 
                 for (int i = 0; i < linesToExcercise.Length; i++)
                 {
@@ -45,7 +45,7 @@ namespace GitffHistory.Experiment.ViewModels
                     result.Add(detail);
                 }
 
-                fileChanges.HistoryFilename = commit.History.FileName;
+                fileChanges.HistoryFilename = commit.Parent.FileName;
                 fileChanges.History.AddRange(result);
 
 

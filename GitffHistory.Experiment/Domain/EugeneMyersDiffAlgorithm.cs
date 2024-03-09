@@ -5,7 +5,7 @@ namespace GitffHistory.Experiment.Domain
 {
     /// Copyright (c) by Matthias Hertel, http://www.mathertel.de
     /// This work is licensed under a BSD style license. See http://www.mathertel.de/License.aspx
-    public class EugeneMyers
+    public class EugeneMyersDiffAlgorithm
     {
         /// <summary>details of one difference.</summary>
         public struct Item
