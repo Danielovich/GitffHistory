@@ -4,7 +4,8 @@ namespace GitffHistory.Experiment.IO
 {
     public interface IReadFiles<T> where T : class
     {
-        List<T> ReadFilesFromDirectory();
+        List<T> LoadCommits();
+        T LoadCommit(string filePath);
     }
 
     public class CommitsReader : IReadFiles<Commit>
@@ -13,31 +14,40 @@ namespace GitffHistory.Experiment.IO
             AppDomain.CurrentDomain.BaseDirectory,
             Path.DirectorySeparatorChar,
             "Commits");
-
-        public List<Commit> ReadFilesFromDirectory()
+        
+        /// <summary>
+        /// Ordered by filename, descending
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="DirectoryNotFoundException"></exception>
+        public List<Commit> LoadCommits()
         {
-            List<Commit> commits = new List<Commit>();
+            string[] filePaths = Directory.GetFiles(filesPath);
 
-            if (!Directory.Exists(filesPath))
-            {
-                throw new DirectoryNotFoundException($"The directory '{filesPath}' was not found.");
-            }
+            List<Commit> commits = new();
 
             string[] filePaths = Directory.GetFiles(filesPath);
 
             foreach (var filePath in filePaths)
             {
-                string lines = File.ReadAllText(filePath);
-
-                var commit = new Commit();
-                commit.RawFileContents = lines;
-                commit.FileName = Path.GetFileName(filePath);
-                commits.Add(commit);
+                commits.Add(
+                    LoadCommit(filePath)
+                );
             }
 
-            var orderedByFilenames = commits.OrderByDescending(f => f.FileName).ToList();
+            // 4, 3, 2, 1....descending order
+            return commits.OrderByDescending(f => f.FileName).ToList();
+        }
 
-            return orderedByFilenames;
+        public Commit LoadCommit(string filePath)
+        {
+            var commitContent = File.ReadAllText(filePath);
+
+            return new Commit()
+            {
+                RawFileContents = commitContent,
+                FileName = Path.GetFileName(filePath)
+            };
         }
     }
 }

@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Razor.Templating.Core" Version="1.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Commits\1_09176abef779f31035ed8517c099ec1c9e62cf81.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
