@@ -17,11 +17,6 @@ public class CommitReaderStub : IReadFiles<Commit>
     {
         List<Commit> commits = new List<Commit>();
 
-        if (!Directory.Exists(filesPath))
-        {
-            throw new DirectoryNotFoundException($"The directory '{filesPath}' was not found.");
-        }
-
         string[] filePaths = Directory.GetFiles(filesPath);
 
         foreach (var filePath in filePaths)
