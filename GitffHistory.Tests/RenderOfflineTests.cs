@@ -6,11 +6,14 @@ namespace GitffHistory.Tests
     public class RenderOfflineTests
     {
         [Fact]
-        public async Task dd()
+        public async Task Rendering_Results_In_HTML()
         {
             RenderOffline ro = new RenderOffline();
             var html = await ro.Render();
 
+            Assert.True(html.Length > 0);
+
+#if DEBUG
             var path = string.Concat(
                 AppDomain.CurrentDomain.BaseDirectory,
                 Path.DirectorySeparatorChar,
@@ -20,6 +23,7 @@ namespace GitffHistory.Tests
                 ".html");
 
             await File.WriteAllTextAsync(path, html);
+#endif
         }
     }
 }
