@@ -27,3 +27,6 @@ namespace GitffHistory.Tests
         }
     }
 }
+
+file endpoint
+https://api.github.com/repos/izuzak/pmrpc/commits?path=README.markdown
